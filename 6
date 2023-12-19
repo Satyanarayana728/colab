@@ -1,0 +1,39 @@
+import numpy as np
+s=[[1,1,-1,-1],[1,-1,1,-1],[-1,1,1,-1]]
+x=[[-1,1,1,-1]]
+if len(s)>=len(s[0][:]):
+  print('The number cannot store',len(s),'number of patterns with',len(s[0][:]),'nodes')
+else:
+  flag=0
+  for i in range(len(s)):
+    temp1=s[i][:]
+    for j in range(len(s)):
+      if i==j:
+        continue
+      else:
+        temp2=s[j][:]
+      ortho=np.dot(temp1,temp2)
+      if ortho!=0:
+        print('The patterns trying to store are not mutually orthogonal')
+        flag=1
+        break
+    if flag==1:
+      break
+      w=np.zeros((len(np.array(s)[0][:]),len(np.array(s)[0][:])))
+    for i in range(len(s)):
+      w+=np.dot(np.transpose(np.mat(s[i][:])),np.mat(s[i][:]))
+    ind=np.diag_indices_from(w)
+    w[ind]=0
+    print('The weight matrix of the net after learning the given patterns is \n',w)
+    print('\n Testing/Application of the Auto Associative Net')
+    yin=np.dot(x,w)
+    yout=yin
+    yout[yout>0]=1
+    yout[yout<=0]=-1
+    for i in range(len(s)):
+      temp=not np.all(s[i][:]-yout==0)
+      if temp==0:
+        print('The given pattern is associated with the stored pattern \t\t',yout)
+        break
+    if temp!=0:
+      print('The given pattern is not associated with any stored pattern')
