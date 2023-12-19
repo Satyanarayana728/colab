@@ -1,0 +1,40 @@
+import numpy as np
+import pandas as pd
+from prettytable import PrettyTable
+x=[[1,1,1,1],[-1,1,1,1],[1,-1,1,1],[1,1,-1,1]]
+t=[-1,-1,-1,1]
+w=[0,0,0,0]
+dw=[0,0,0,0]
+lr=0.5
+epochs=2
+print("\n Training of the network \n")
+tab=PrettyTable(['x','yin','yout','t','change in weight','weights'])
+for k in range(epochs):
+  print("\n Epoch number",k+1)
+  tab.add_row([[],[],[],[],[],np.array(w)])
+  for j in range(len(t)):
+    yin=np.dot(w,np.array(x)[:,j])
+    if yin>0:
+      yout=1
+    else:
+      if yin<0:
+        yout=-1
+      else:
+        yout=0
+    for i in range(len(w)):
+      dw[i]=lr*(t[j]-yout)*x[i][j]
+      w[i]+=dw[i]
+    tab.add_row([np.array(x)[:,j],yin,yout,t[j],np.array(dw),np.array(w)])
+  print(tab)
+  tab.clear_rows()
+print("\n final weights after training",w)
+print("\n\n Testing of the network")
+testtab=PrettyTable(['x','yin','yout','t'])
+for j in range(len(t)):
+  yin=np.dot(w,np.array(x)[:,j])
+  if yin<0:
+    yout=-1
+  else:
+    yout=1
+  testtab.add_row([np.array(x)[:,j],yin,yout,t[j]])
+print(testtab)
