@@ -1,0 +1,32 @@
+import numpy as np
+from prettytable import PrettyTable
+S = [[1,0,0],[0,0,1],[1,1,0],[0,1,1]]
+W=[[0.5,0.3],[0.8,0.5],[0.4,0.3]]
+d=[0, 0]
+lr=0.8;
+K=0.5
+p=[];
+k=1
+temp=[]
+print("\n Training the network begin here\n")
+epochs=20
+for k in range(epochs):
+  print("\n Epoch Number", k+1)
+  t = PrettyTable(['x', 'Dist','minium Dist','Winner cluster',"New code Vectors"])
+  for j in range(len(np.array(S)[:,0])):
+    for i in range(len(np.array(W)[0,:])):
+      d[i]=round(sum(np.square(np.array(W)[:,i]-np.array(S)[j,:])),2)
+      p=np.argmin(d)
+    dw=lr*np.subtract(np.array(S)[j,:],np.array(W)[:,p])
+    for i in range(len(W)):
+      W[i][p]+=round(dw[i],2)
+    t.add_row([np.array(S)[j,:],np.array(d),p,"C["+str(p)+"]",np.transpose(np.array(W))])
+  W=np.round_(W,decimals=2)
+  lr=K*lr
+  print(t)
+  err=np.sum(abs(np.mat(temp)-W))
+  temp=[]
+  ptint(err)
+  k+=1
+  if err<0.01:
+    break;
