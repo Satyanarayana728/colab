@@ -1,0 +1,41 @@
+import numpy as np
+s=[[1,1,-1,-1],[1,-1,1,-1]]
+x=[1,0,0,0]
+w=np.zeros((len(np.array(s)[0][:]),len(np.array(s)[0][:])))
+for i in range(len(s)):
+  w+=np.dot(np.transpose(np.mat(s[i][:])),np.mat(s[i][:]))
+ind=np.diag_indices_from(w)
+w[ind]=0
+print('The weight matrix of the net after learning the given patterns is \n',w)
+print('\n Tesing/Application of the Auto Associative Net')
+yout=x
+ss=1;
+while ss:
+  temp=np.mat(yout)
+  yin=np.zeros(len(s[0][:]),dtype=int)
+  n=np.arange(0,len(s[0][:]))
+  random.shuffle(n)
+  for j in n:
+    for i in range(len(x)):
+      if i==j:
+        yin[j]+=x[j]
+      else:
+        yin[j]+=np.dot(yout[i],w[i][j])
+    if yin[j]>0:
+      yout[j]=1
+    elif yin[j]<0:
+      yout[j]=0
+  temp1= not np.all(np.subtract(temp,yout)==0)
+  if temp1==0:
+    print('The stable state obtained for given test pattern is\t',yout)
+    break
+temp=np.mat(yout)
+temp[temp==0]=-1
+for i in range(len(s)):
+  temp1= not np.all(np.subtract(s[i][:],temp)==0)
+  if temp1==0:
+    print('The given Pattern is associated with the stored pattern\t\t',s[i][:])
+    break
+if temp1!=0:
+  print('The given Pattern is not associated with any stored pattern')
+
