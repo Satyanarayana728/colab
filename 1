@@ -1,0 +1,135 @@
+import numpy as np
+import matplotlib.pyplot as plt
+def linearact(x):
+  return x
+def step(x):
+  y=[]
+  for i in x:
+    if i<0:
+      y.append(0)
+    else:
+      y.append(1)
+  return y
+def steptheta(x,theta):
+    y=[]
+    for i in x:
+      if i<0:
+        y.append(0)
+      else:
+        y.append(1)
+    return y
+def bistep(x):
+  y=[]
+  for i in x:
+    if i<0:
+      y.append(-1)
+    else:
+      y.append(1)
+  return y
+def bisteptheta(x,theta):
+  y=[]
+  theta=2;
+  for i in x:
+    if i<theta:
+      y.append(-1)
+    else:
+      y.append(1)
+  return y
+def sigmoid(x):
+   return 1/(1+np.exp(-x))
+def bisigmoid(x):
+   return (1-np.exp(-x))/(1+np.exp(-x))
+def hyptan(x):
+   return (np.exp(x)-np.exp(-x))/(np.exp(x)+np.exp(-x))
+def Relu(x):
+  y=[]
+  for i in x:
+    if i<0:
+      y.append(0)
+    else:
+      y.append(i)
+  return y
+def leakyRelu(x):
+  y=[]
+  for i in x:
+    if i<0:
+      y.append(0.1*i)
+    else:
+      y.append(i)
+  return y
+def softmax(x):
+  return np.exp(x) / np.sum(np.exp(x), axis=0)
+def elu(x):
+  y=[]
+  for i in x:
+    if i<0:
+     y.append(0.5*(np.exp(i) -1))
+    else:
+     y.append(i)
+  return y
+x=np.linspace(-15,15,500);
+theta=2;
+y1=linearact(x);
+y2=step(x);
+y3=steptheta(x,theta);
+y4=bistep(x);
+y5=bisteptheta(x,theta);
+y6=sigmoid(x);
+y7=bisigmoid(x);
+y8=hyptan(x);
+y9=Relu(x);
+y10=leakyRelu(x);
+y11=softmax(x);
+y12=elu(x);
+
+
+plt.figure(figsize=(15,15))
+print("\t\t\t\t\t\t\t\t *****ACTIVATION FUNCTIONS***** \t")
+
+plt.subplot(4,3,1)
+plt.plot(x,y1)
+plt.title('Linearact')
+
+plt.subplot(4,3,2)
+plt.plot(x,y2,color='red')
+plt.title('Step')
+
+plt.subplot(4,3,3)
+plt.plot(x,y3,color='green')
+plt.title('Steptheta')
+
+plt.subplot(4,3,4)
+plt.plot(x,y4,color='purple')
+plt.title('Bistep')
+
+plt.subplot(4,3,5)
+plt.plot(x,y5,color='pink')
+plt.title('Bisteptheta')
+
+plt.subplot(4,3,6)
+plt.plot(x,y6,color='grey')
+plt.title('Sigmoid')
+
+plt.subplot(4,3,7)
+plt.plot(x,y7,color='black')
+plt.title('Bisigmoid')
+
+plt.subplot(4,3,8)
+plt.plot(x,y8,color='orange')
+plt.title('Hyptan')
+
+plt.subplot(4,3,9)
+plt.plot(x,y9,color='brown')
+plt.title('Relu')
+
+plt.subplot(4,3,10)
+plt.plot(x,y10,color='yellow')
+plt.title('Leakyrelu')
+
+plt.subplot(4,3,11)
+plt.plot(x,y11,color='navy')
+plt.title('Softmax')
+
+plt.subplot(4,3,12)
+plt.plot(x,y12,color='lightgreen')
+plt.title('Elu')
