@@ -1,0 +1,39 @@
+import numpy as np
+import pandas as pd
+from prettytable import PrettyTable
+x=[[1,1,1,1],[1,1,-1,-1],[1,-1,1,-1]]
+t=[-1,1,-1,-1]
+w=[0.25,0.25,0.25]
+dw=[0,0,0]
+lr=0.2
+epochs=2
+print("\n Training of the network \n")
+tab=PrettyTable(['x','yin','t','error','change in weight','weights'])
+for k in range(epochs):
+  print("\n Epoch number",k+1)
+  tab.add_row([[],[],[],[],[],np.array(w)])
+  for j in range(len(t)):
+    yin=round(np.dot(w,np.array(x)[:,j]),2)
+    error=t[j]-yin
+    for i in range(len(w)):
+      dw[i]=round(lr*(error)*x[i][j],2)
+      w[i]+=dw[i]
+    tab.add_row([np.array(x)[:,j],yin,t[j],round(error,2),np.array(dw),np.array(w)])
+  err=0
+  for j in range(len(t)):
+    yin=round(np.dot(w,np.array(x)[:,j]),2)
+    err+=(t[j]-yin)**2
+  print(tab)
+  tab.clear_rows()
+  print("\n mean squared error after the epoch",k+1,"is",err/len(t))
+print("\n final weights after training",[round(num,2) for num in w])
+print("\n \n Testing of the network")
+testtab=PrettyTable(['x','yin','yout','target output'])
+for j in range(len(t)):
+  yin=round(np.dot(w,np.array(x)[:,j]),2)
+  if yin<0:
+    yout=-1
+  else:
+    yout=1
+  testtab.add_row([np.array(x)[:,j],yin,yout,t[j]])
+print(testtab)
