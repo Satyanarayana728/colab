@@ -1,0 +1,23 @@
+import numpy as np
+x=[[+1,+1,+1,+1],[-1,-1,+1,+1],[-1,+1,-1,+1]]
+t=[-1,1,1,1]
+w=[0,0,0]
+dw=[0,0,0]
+print("\n training of the network \n")
+print(" x1 x2 x3  \t yin \t  t  \t  dw1 dw2 dw3 \t  w1   w2  w3")
+print("           \t         \t     \t     \t  0   0   0")
+for j in range(len(t)):
+  yin=np.dot(w,np.array(x)[:,j])
+  for i in range(len(w)):
+    dw[i]=x[i][j]*t[j]
+    w[i]+=dw[i]
+  print(np.array(x)[:,j],"\t",yin,"\t",t[j],"\t",dw,"\t",w)
+print("\n final weights after training ",w)
+print("x1 x2 x3 \t yin \t t \t yout")
+for j in range(len(t)):
+  yin=np.dot(w,np.array(x)[:,j])
+  if yin<0:
+    yout=-1
+  else:
+    yout=+1
+  print(np.array(x)[:,j],"\t",yin,"\t",t[j],"\t",yout)
