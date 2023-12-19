@@ -1,0 +1,22 @@
+import numpy as np
+
+s = np.array([[1, -1, 1, -1], [1, 1, 1, -1], [1, -1, 1, 1]])
+t = np.array([[-1, 1, -1], [1, 1, -1], [-1, 1, 1]])
+x = np.array([[1, 1, -1, -1]])
+
+if len(s) >= len(s[0]):
+    print(f"The network cannot store {len(s)} patterns with {len(s[0])} nodes")
+else:
+    w = np.zeros((len(s[0]), len(t[0])))
+
+    for i in range(len(s)):
+        w += np.outer(s[i], t[i])
+
+    print(f"Weight matrix after learning association between given pattern is\n{w}")
+
+    yout = np.sign(np.dot(x, w))
+
+    if any(np.all(pattern == yout) for pattern in t):
+        print(f"Given pattern is associated with stored pattern: {yout}")
+    else:
+        print("Given pattern is not associated with any pattern")
